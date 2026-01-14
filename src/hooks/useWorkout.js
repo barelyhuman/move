@@ -99,13 +99,13 @@ export const useWorkout = () => {
   };
 
   const incrementSetReps = (setNumber) => {
-    if (activeSetReps && activeSetReps[setNumber] != null && !completedSets.includes(setNumber)) {
+    if (activeSetReps && activeSetReps[setNumber] !== undefined && !completedSets.includes(setNumber)) {
       updateSetReps(setNumber, activeSetReps[setNumber] + 1);
     }
   };
 
   const decrementSetReps = (setNumber) => {
-    if (activeSetReps && activeSetReps[setNumber] != null && !completedSets.includes(setNumber)) {
+    if (activeSetReps && activeSetReps[setNumber] !== undefined && !completedSets.includes(setNumber)) {
       updateSetReps(setNumber, activeSetReps[setNumber] - 1);
     }
   };
