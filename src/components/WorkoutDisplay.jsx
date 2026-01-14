@@ -7,10 +7,23 @@ export const WorkoutDisplay = ({
   exercise,
   workout,
   completedSets,
+  activeSetReps,
   isWorkoutActive,
   onShowExerciseSelector,
-  onCompleteSet
+  onCompleteSet,
+  onIncrementSetReps,
+  onDecrementSetReps
 }) => {
+  // Helper to get reps for a set
+  const getRepsForSet = (setNumber) => {
+    // During active workout, use per-set reps if available
+    if (isWorkoutActive && activeSetReps) {
+      return activeSetReps[setNumber];
+    }
+    // Otherwise use default hard/easy reps
+    return setNumber === 1 ? workout.hardReps : workout.easyReps;
+  };
+
   return (
     <div className="border border-stone-900 bg-white">
       <div className="px-4 py-3 border-b border-stone-900 bg-stone-50 flex justify-between items-center">
@@ -47,11 +60,13 @@ export const WorkoutDisplay = ({
           <SetItem
             setNumber={1}
             exerciseName={exercise.name}
-            reps={workout.hardReps}
+            reps={getRepsForSet(1)}
             variation="Hardest variation"
             isCompleted={completedSets.includes(1)}
             isActive={isWorkoutActive}
             onComplete={onCompleteSet}
+            onIncrementReps={onIncrementSetReps}
+            onDecrementReps={onDecrementSetReps}
           />
 
           {/* Sets 2-4 - Easy */}
@@ -60,11 +75,13 @@ export const WorkoutDisplay = ({
               key={setNum}
               setNumber={setNum}
               exerciseName={exercise.easy}
-              reps={workout.easyReps}
+              reps={getRepsForSet(setNum)}
               variation="Adaptive variation"
               isCompleted={completedSets.includes(setNum)}
               isActive={isWorkoutActive}
               onComplete={onCompleteSet}
+              onIncrementReps={onIncrementSetReps}
+              onDecrementReps={onDecrementSetReps}
             />
           ))}
         </div>
