@@ -17,6 +17,7 @@ const App = () => {
   const handleStartWorkout = () => {
     timer.start();
     workout.resetSets();
+    workout.initializeActiveSetReps(); // Initialize per-set reps when workout starts
   };
 
   const handleFinishWorkout = () => {
@@ -56,9 +57,12 @@ const App = () => {
             exercise={workout.currentExercise}
             workout={workout.currentWorkout}
             completedSets={workout.completedSets}
+            activeSetReps={workout.activeSetReps}
             isWorkoutActive={timer.isActive}
             onShowExerciseSelector={() => workout.setShowExerciseSelector(true)}
             onCompleteSet={workout.completeSet}
+            onIncrementSetReps={workout.incrementSetReps}
+            onDecrementSetReps={workout.decrementSetReps}
           />
 
           <WorkoutActions

@@ -8,7 +8,9 @@ export const SetItem = ({
   variation,
   isCompleted,
   isActive,
-  onComplete
+  onComplete,
+  onIncrementReps,
+  onDecrementReps
 }) => {
   const isHardSet = setNumber === 1;
 
@@ -23,17 +25,39 @@ export const SetItem = ({
         </div>
       </div>
       {isActive && (
-        <button
-          onClick={() => onComplete(setNumber)}
-          disabled={isCompleted}
-          className={`ml-4 w-8 h-8 border border-stone-900 text-xs font-bold ${
-            isCompleted
-              ? 'bg-stone-900 text-white'
-              : 'bg-white text-stone-900 hover:bg-stone-100'
-          }`}
-        >
-          {isCompleted ? '✓' : setNumber}
-        </button>
+        <div className="ml-4 flex items-center gap-2">
+          {/* Rep adjustment buttons - only show for uncompleted sets */}
+          {!isCompleted && (
+            <>
+              <button
+                onClick={() => onDecrementReps(setNumber)}
+                className="w-6 h-6 border border-stone-900 text-xs font-bold bg-white text-stone-900 hover:bg-stone-100"
+                title="Decrease reps"
+              >
+                −
+              </button>
+              <button
+                onClick={() => onIncrementReps(setNumber)}
+                className="w-6 h-6 border border-stone-900 text-xs font-bold bg-white text-stone-900 hover:bg-stone-100"
+                title="Increase reps"
+              >
+                +
+              </button>
+            </>
+          )}
+          {/* Complete button */}
+          <button
+            onClick={() => onComplete(setNumber)}
+            disabled={isCompleted}
+            className={`w-8 h-8 border border-stone-900 text-xs font-bold ${
+              isCompleted
+                ? 'bg-stone-900 text-white'
+                : 'bg-white text-stone-900 hover:bg-stone-100'
+            }`}
+          >
+            {isCompleted ? '✓' : setNumber}
+          </button>
+        </div>
       )}
     </div>
   );

@@ -20,6 +20,7 @@ export const useWorkout = () => {
     return mergeWorkoutData(persistedData, DEFAULT_WORKOUT_DATA);
   });
   const [completedSets, setCompletedSets] = useState([]);
+  const [activeSetReps, setActiveSetReps] = useState(null); // Track per-set reps during active workout
   const [weeklyProgress, setWeeklyProgress] = useState(0);
   const [showExerciseSelector, setShowExerciseSelector] = useState(false);
 
@@ -73,6 +74,40 @@ export const useWorkout = () => {
 
   const resetSets = () => {
     setCompletedSets([]);
+    setActiveSetReps(null); // Clear per-set reps when resetting
+  };
+
+  const initializeActiveSetReps = () => {
+    // Initialize per-set reps: Set 1 is hard, Sets 2-4 are easy
+    setActiveSetReps({
+      1: currentWorkout.hardReps,
+      2: currentWorkout.easyReps,
+      3: currentWorkout.easyReps,
+      4: currentWorkout.easyReps,
+    });
+  };
+
+  const updateSetReps = (setNumber, newReps) => {
+    if (completedSets.includes(setNumber)) {
+      // Don't allow modifying completed sets
+      return;
+    }
+    setActiveSetReps((prev) => ({
+      ...prev,
+      [setNumber]: Math.max(1, newReps), // Ensure minimum 1 rep
+    }));
+  };
+
+  const incrementSetReps = (setNumber) => {
+    if (activeSetReps && activeSetReps[setNumber] !== undefined && !completedSets.includes(setNumber)) {
+      updateSetReps(setNumber, activeSetReps[setNumber] + 1);
+    }
+  };
+
+  const decrementSetReps = (setNumber) => {
+    if (activeSetReps && activeSetReps[setNumber] !== undefined && !completedSets.includes(setNumber)) {
+      updateSetReps(setNumber, activeSetReps[setNumber] - 1);
+    }
   };
 
   const incrementWeeklyProgress = () => {
@@ -89,6 +124,7 @@ export const useWorkout = () => {
     currentExercise,
     workoutData,
     completedSets,
+    activeSetReps,
     weeklyProgress,
     showExerciseSelector,
     allSetsComplete,
@@ -98,6 +134,9 @@ export const useWorkout = () => {
     selectExercise,
     completeSet,
     resetSets,
+    initializeActiveSetReps,
+    incrementSetReps,
+    decrementSetReps,
     incrementWeeklyProgress,
     changeDay,
   };
