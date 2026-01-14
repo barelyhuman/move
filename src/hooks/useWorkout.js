@@ -44,6 +44,17 @@ export const useWorkout = () => {
     }));
   };
 
+  const reduceRep = (dayType) => {
+    setWorkoutData((prev) => ({
+      ...prev,
+      [dayType]: {
+        ...prev[dayType],
+        hardReps: Math.max(1, prev[dayType].hardReps - 1),
+        easyReps: Math.max(1, prev[dayType].easyReps - 1),
+      },
+    }));
+  };
+
   const selectExercise = (dayType, exerciseIndex) => {
     setWorkoutData((prev) => ({
       ...prev,
@@ -83,6 +94,7 @@ export const useWorkout = () => {
     allSetsComplete,
     setShowExerciseSelector,
     addRep,
+    reduceRep,
     selectExercise,
     completeSet,
     resetSets,

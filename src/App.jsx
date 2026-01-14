@@ -67,17 +67,14 @@ const App = () => {
             onStartWorkout={handleStartWorkout}
             onFinishWorkout={handleFinishWorkout}
             onAddRep={() => workout.addRep(workout.currentDay)}
+            onReduceRep={() => workout.reduceRep(workout.currentDay)}
           />
 
-          <InfoCard title="Current Progress">
+          <InfoCard title="Progress">
             <div className="text-xs text-stone-600 space-y-1">
-              <div>Hard Set: {workout.currentWorkout.hardReps} reps</div>
-              <div>Easy Sets: {workout.currentWorkout.easyReps} reps each</div>
-              <div>Exercise Level: {workout.currentExercise.difficulty}/10</div>
-              <div className="pt-2 text-stone-500">
+              
                 Progress by adding +1 rep weekly. When you can do 20 reps easily,
                 consider moving to the next exercise level.
-              </div>
             </div>
           </InfoCard>
 

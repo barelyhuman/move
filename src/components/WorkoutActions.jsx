@@ -6,7 +6,8 @@ export const WorkoutActions = ({
   allSetsComplete,
   onStartWorkout,
   onFinishWorkout,
-  onAddRep
+  onAddRep,
+  onReduceRep
 }) => {
   return (
     <div className="space-y-3">
@@ -31,12 +32,20 @@ export const WorkoutActions = ({
       )}
 
       {!isWorkoutActive && (
-        <button
-          onClick={onAddRep}
-          className="w-full py-3 border border-stone-900 bg-white text-stone-900 text-xs font-bold uppercase tracking-wide hover:bg-stone-100 transition-colors"
-        >
-          Add +1 Rep (Weekly Progress)
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={onReduceRep}
+            className="flex-1 py-3 border border-stone-900 bg-white text-stone-900 text-xs font-bold uppercase tracking-wide hover:bg-stone-100 transition-colors"
+          >
+            Reduce Effort
+          </button>
+          <button
+            onClick={onAddRep}
+            className="flex-1 py-3 border border-stone-900 bg-white text-stone-900 text-xs font-bold uppercase tracking-wide hover:bg-stone-100 transition-colors"
+          >
+            Increase Effort
+          </button>
+        </div>
       )}
     </div>
   );
